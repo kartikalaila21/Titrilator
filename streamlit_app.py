@@ -491,4 +491,3 @@ elif menu=="📈 Riwayat":
         st.warning(
         "Belum ada riwayat"
         )
-```
