@@ -385,11 +385,11 @@ elif menu=="📊 Interpretasi":
     nilai=st.number_input("Masukkan Normalitas", value=0.1, format="%.4f")
     
     if nilai < 0.09:
-        st.warning("⚠️ Larutan terlalu encer - pertimbangkan untuk mengencerkan atau menambahkan zat”)
+        st.warning("Larutan terlalu encer - pertimbangkan untuk mengencerkan")
     elif nilai > 0.11:
-        st.error("❌ Larutan terlalu pekat - pertimbangkan untuk mengencerkan")
+        st.error("Larutan terlalu pekat - pertimbangkan untuk mengencerkan")
     else:
-        st.success("✅ Normalitas sesuai standar (~0.1 N)")
+        st.success("Normalitas sesuai standar")
 
 # ==========================================
 # RIWAYAT
@@ -398,4 +398,3 @@ elif menu=="📈 Riwayat":
     st.header("📈 Riwayat Perhitungan")
     
     if len(st.session_state.riwayat) > 0:
-        df
