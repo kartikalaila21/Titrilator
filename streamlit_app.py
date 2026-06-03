@@ -23,94 +23,56 @@ st.markdown("""
 background-color:#F5F7FA;
 }
 
-/* Judul */
-
 .judul{
-font-size:50px;
+font-size:45px;
 font-weight:bold;
 text-align:center;
 color:#0B4F8A;
 }
 
 .subjudul{
-
 text-align:center;
 font-size:18px;
 color:#444;
-margin-bottom:35px;
-
+margin-bottom:30px;
 }
 
-/* Kartu */
-
 .kartu{
-
 background:white;
 padding:20px;
-border-radius:20px;
-
-box-shadow:
-0px 4px 15px rgba(
-0,
-0,
-0,
-0.1
-);
-
+border-radius:15px;
+box-shadow:0px 4px 12px rgba(0,0,0,0.1);
 height:220px;
-
 }
 
 .kartu h3{
-
 color:#0B4F8A;
-
 }
 
 .kartu p{
-
 color:black;
 font-size:16px;
-
 }
-
-/* hasil */
 
 .hasil{
-
 padding:20px;
-
 background:#D4EDDA;
-
-border-left:
-6px solid green;
-
+border-left:6px solid green;
 border-radius:10px;
-
-font-size:22px;
-
+font-size:20px;
 font-weight:bold;
-
 color:black;
-
 }
 
-/* sidebar */
-
 section[data-testid="stSidebar"]{
-
 background:#0B4F8A;
-
 }
 
 section[data-testid="stSidebar"] *{
-
 color:white;
-
 }
 
 </style>
-
 """,unsafe_allow_html=True)
 
 # =====================================================
@@ -118,7 +80,6 @@ color:white;
 # =====================================================
 
 if "riwayat" not in st.session_state:
-
     st.session_state.riwayat=[]
 
 
@@ -126,10 +87,7 @@ if "riwayat" not in st.session_state:
 # FUNGSI
 # =====================================================
 
-def simpan_riwayat(
-jenis,
-hasil
-):
+def simpan_riwayat(jenis,hasil):
 
     data={
 
@@ -146,9 +104,8 @@ hasil
 
     }
 
-    st.session_state.riwayat.append(
-    data
-    )
+    st.session_state.riwayat.append(data)
+
 
 
 def hitung_normalitas(
@@ -168,14 +125,12 @@ m_edta,
 v_sampel
 ):
 
-    ppm=(
+    return (
     v_edta*
     m_edta*
     100.09*
     1000
     )/v_sampel
-
-    return ppm
 
 
 # =====================================================
@@ -185,16 +140,14 @@ v_sampel
 st.markdown("""
 
 <div class='judul'>
-
 🧪 TITRILATOR
-
 </div>
 
 <div class='subjudul'>
 
 Aplikasi digital untuk membantu
-perhitungan titrimetri secara
-cepat, akurat, dan interaktif
+perhitungan titrimetri secara cepat,
+akurat, dan interaktif
 
 </div>
 
@@ -206,12 +159,13 @@ cepat, akurat, dan interaktif
 
 menu=st.sidebar.radio(
 
-"📌 Pilih Menu",
+"📌 Menu",
 
 [
 "🏠 Dashboard",
 "🧮 Kalkulator",
 "🎨 Simulasi Indikator",
+"📊 Interpretasi",
 "📈 Riwayat"
 ]
 
@@ -224,7 +178,7 @@ menu=st.sidebar.radio(
 if menu=="🏠 Dashboard":
 
     st.header(
-    "Selamat Datang"
+    "Selamat Datang di TITRILATOR"
     )
 
     c1,c2,c3=st.columns(3)
@@ -234,13 +188,11 @@ if menu=="🏠 Dashboard":
         st.markdown("""
 
 <div class='kartu'>
-
 <h3>🔬 Asidimetri</h3>
 
 <p>
 
-• Standarisasi NaOH
-
+• Standarisasi NaOH<br>
 • Standarisasi HCl
 
 </p>
@@ -254,13 +206,11 @@ if menu=="🏠 Dashboard":
         st.markdown("""
 
 <div class='kartu'>
-
 <h3>💜 Permanganometri</h3>
 
 <p>
 
-• Standarisasi KMnO₄
-
+• KMnO₄<br>
 • Analisis Fe
 
 </p>
@@ -269,19 +219,16 @@ if menu=="🏠 Dashboard":
 
 """,unsafe_allow_html=True)
 
-
     with c3:
 
         st.markdown("""
 
 <div class='kartu'>
-
 <h3>💙 Kompleksiometri</h3>
 
 <p>
 
-• EDTA
-
+• EDTA<br>
 • Kesadahan Air
 
 </p>
@@ -290,7 +237,6 @@ if menu=="🏠 Dashboard":
 
 """,unsafe_allow_html=True)
 
-    st.divider()
 
     st.info("""
 
@@ -298,9 +244,9 @@ Fitur aplikasi:
 
 ✅ Perhitungan normalitas
 
-✅ Perhitungan kesadahan
-
 ✅ Simulasi indikator
+
+✅ Interpretasi hasil
 
 ✅ Riwayat perhitungan
 
@@ -320,16 +266,12 @@ elif menu=="🧮 Kalkulator":
     "Pilih Metode",
 
     [
-
     "Standarisasi NaOH",
     "Standarisasi HCl",
     "Kesadahan Air"
-
     ]
 
     )
-
-    # =================================
 
     if metode=="Standarisasi NaOH":
 
@@ -353,34 +295,17 @@ elif menu=="🧮 Kalkulator":
         value=25.0
         )
 
-        if st.button(
-        "Hitung"
-        ):
+        if st.button("Hitung"):
 
             be=126.07/2
             fp=labu/pipet
 
             hasil=hitung_normalitas(
-            mg,
-            vt,
-            be,
-            fp
+            mg,vt,be,fp
             )
 
             st.markdown(
-
-f"""
-<div class='hasil'>
-
-Normalitas NaOH
-
-<br><br>
-
-{hasil:.5f} N
-
-</div>
-""",
-
+f"<div class='hasil'>Normalitas NaOH = {hasil:.5f} N</div>",
 unsafe_allow_html=True
 )
 
@@ -388,7 +313,6 @@ unsafe_allow_html=True
             "NaOH",
             hasil
             )
-
 
 
     elif metode=="Standarisasi HCl":
@@ -413,34 +337,17 @@ unsafe_allow_html=True
         value=25.0
         )
 
-        if st.button(
-        "Hitung"
-        ):
+        if st.button("Hitung"):
 
             be=381.37/2
             fp=labu/pipet
 
             hasil=hitung_normalitas(
-            mg,
-            vt,
-            be,
-            fp
+            mg,vt,be,fp
             )
 
             st.markdown(
-
-f"""
-<div class='hasil'>
-
-Normalitas HCl
-
-<br><br>
-
-{hasil:.5f} N
-
-</div>
-""",
-
+f"<div class='hasil'>Normalitas HCl = {hasil:.5f} N</div>",
 unsafe_allow_html=True
 )
 
@@ -467,9 +374,7 @@ unsafe_allow_html=True
         value=50.0
         )
 
-        if st.button(
-        "Hitung"
-        ):
+        if st.button("Hitung"):
 
             hasil=hitung_kesadahan(
             v_edta,
@@ -478,19 +383,7 @@ unsafe_allow_html=True
             )
 
             st.markdown(
-
-f"""
-<div class='hasil'>
-
-Kesadahan Air
-
-<br><br>
-
-{hasil:.2f} ppm
-
-</div>
-""",
-
+f"<div class='hasil'>Kesadahan Air = {hasil:.2f} ppm</div>",
 unsafe_allow_html=True
 )
 
@@ -499,15 +392,31 @@ unsafe_allow_html=True
             hasil
             )
 
-
 # =====================================================
-# SIMULASI
+# SIMULASI INDIKATOR
 # =====================================================
 
 elif menu=="🎨 Simulasi Indikator":
 
-    st.subheader(
-    "Simulasi pH"
+    st.header(
+    "Simulasi Indikator"
+    )
+
+    indikator={
+
+    "Fenolftalein":[8.3,10,"Tidak berwarna → Merah muda"],
+
+    "Metil Orange":[3.1,4.4,"Merah → Kuning"],
+
+    "Metil Merah":[4.2,6.3,"Merah → Kuning"],
+
+    "EBT":[7,11,"Merah anggur → Biru"]
+
+    }
+
+    pilih=st.selectbox(
+    "Pilih indikator",
+    list(indikator.keys())
     )
 
     ph=st.slider(
@@ -517,10 +426,48 @@ elif menu=="🎨 Simulasi Indikator":
     7.0
     )
 
-    st.metric(
-    "Nilai pH",
-    ph
+    data=indikator[pilih]
+
+    st.info(
+f"""
+Rentang pH : {data[0]} - {data[1]}
+
+Perubahan warna:
+{data[2]}
+
+pH dipilih:
+{ph}
+"""
+)
+
+# =====================================================
+# INTERPRETASI
+# =====================================================
+
+elif menu=="📊 Interpretasi":
+
+    nilai=st.number_input(
+    "Masukkan normalitas",
+    value=0.1
     )
+
+    if nilai<0.09:
+
+        st.warning(
+        "Larutan terlalu encer"
+        )
+
+    elif nilai>0.11:
+
+        st.error(
+        "Larutan terlalu pekat"
+        )
+
+    else:
+
+        st.success(
+        "Normalitas sesuai (~0.1 N)"
+        )
 
 
 # =====================================================
@@ -528,10 +475,6 @@ elif menu=="🎨 Simulasi Indikator":
 # =====================================================
 
 elif menu=="📈 Riwayat":
-
-    st.subheader(
-    "Riwayat"
-    )
 
     if len(
     st.session_state.riwayat
@@ -555,7 +498,7 @@ elif menu=="📈 Riwayat":
         st.download_button(
         "⬇ Download CSV",
         csv,
-        "riwayat.csv",
+        "riwayat_titrilator.csv",
         "text/csv"
         )
 
