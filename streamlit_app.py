@@ -2,211 +2,299 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime
 
-# ==================================================
+# =====================================================
 # KONFIGURASI HALAMAN
-# ==================================================
+# =====================================================
 
 st.set_page_config(
-    page_title="TITRILATOR v3.0",
+    page_title="TITRILATOR",
     page_icon="🧪",
     layout="wide"
 )
 
-# ==================================================
-# CSS TAMPILAN
-# ==================================================
+# =====================================================
+# CSS
+# =====================================================
 
 st.markdown("""
 <style>
 
 .stApp{
-    background: linear-gradient(135deg,#f7f9fc,#e8f0ff);
+background-color:#F5F7FA;
 }
 
+/* Judul */
+
 .judul{
-    font-size:42px;
-    font-weight:bold;
-    text-align:center;
-    color:#0F4C81;
+font-size:50px;
+font-weight:bold;
+text-align:center;
+color:#0B4F8A;
 }
 
 .subjudul{
-    text-align:center;
-    font-size:18px;
-    color:#555;
-    margin-bottom:30px;
+
+text-align:center;
+font-size:18px;
+color:#444;
+margin-bottom:35px;
+
 }
+
+/* Kartu */
 
 .kartu{
-    background:white;
-    padding:20px;
-    border-radius:15px;
-    box-shadow:0px 4px 10px rgba(0,0,0,0.1);
+
+background:white;
+padding:20px;
+border-radius:20px;
+
+box-shadow:
+0px 4px 15px rgba(
+0,
+0,
+0,
+0.1
+);
+
+height:220px;
+
 }
+
+.kartu h3{
+
+color:#0B4F8A;
+
+}
+
+.kartu p{
+
+color:black;
+font-size:16px;
+
+}
+
+/* hasil */
 
 .hasil{
-    background:#D4EDDA;
-    padding:15px;
-    border-radius:10px;
-    border-left:6px solid green;
-    font-size:18px;
-    font-weight:bold;
+
+padding:20px;
+
+background:#D4EDDA;
+
+border-left:
+6px solid green;
+
+border-radius:10px;
+
+font-size:22px;
+
+font-weight:bold;
+
+color:black;
+
 }
 
+/* sidebar */
+
 section[data-testid="stSidebar"]{
-    background:#0F4C81;
+
+background:#0B4F8A;
+
+}
+
+section[data-testid="stSidebar"] *{
+
+color:white;
+
 }
 
 </style>
-""", unsafe_allow_html=True)
 
-# ==================================================
-# SESSION STATE
-# ==================================================
+""",unsafe_allow_html=True)
+
+# =====================================================
+# SESSION
+# =====================================================
 
 if "riwayat" not in st.session_state:
+
     st.session_state.riwayat=[]
 
 
-# ==================================================
+# =====================================================
 # FUNGSI
-# ==================================================
+# =====================================================
 
-def simpan_riwayat(jenis,hasil):
+def simpan_riwayat(
+jenis,
+hasil
+):
 
     data={
 
-        "Waktu":
-        datetime.now().strftime("%d-%m-%Y %H:%M:%S"),
+    "Waktu":
+    datetime.now().strftime(
+    "%d-%m-%Y %H:%M:%S"
+    ),
 
-        "Jenis":
-        jenis,
+    "Jenis":
+    jenis,
 
-        "Hasil":
-        hasil
+    "Hasil":
+    hasil
+
     }
 
-    st.session_state.riwayat.append(data)
+    st.session_state.riwayat.append(
+    data
+    )
 
 
-def hitung_normalitas(mg,titran,be,fp):
+def hitung_normalitas(
+mg,
+vt,
+be,
+fp
+):
 
-    return mg/(titran*be*fp)
+    return mg/(vt*be*fp)
 
 
-def hitung_kesadahan(v_edta,m_edta,v_sampel):
 
-    return (
-        v_edta*
-        m_edta*
-        100.09*
-        1000
+def hitung_kesadahan(
+v_edta,
+m_edta,
+v_sampel
+):
+
+    ppm=(
+    v_edta*
+    m_edta*
+    100.09*
+    1000
     )/v_sampel
 
+    return ppm
 
-# ==================================================
+
+# =====================================================
 # HEADER
-# ==================================================
+# =====================================================
 
 st.markdown("""
 
 <div class='judul'>
-🧪 TITRILATOR v3.0
+
+🧪 TITRILATOR
+
 </div>
 
 <div class='subjudul'>
+
 Aplikasi digital untuk membantu
-perhitungan titrimetri praktikum
-kimia analisis secara cepat,
-akurat, dan interaktif
+perhitungan titrimetri secara
+cepat, akurat, dan interaktif
+
 </div>
 
-""", unsafe_allow_html=True)
+""",unsafe_allow_html=True)
 
-
-# ==================================================
+# =====================================================
 # SIDEBAR
-# ==================================================
+# =====================================================
 
 menu=st.sidebar.radio(
 
-    "Pilih Menu",
+"📌 Pilih Menu",
 
-    [
-
-    "🏠 Dashboard",
-    "🧮 Kalkulator",
-    "🎨 Simulasi Indikator",
-    "📈 Riwayat"
-
-    ]
+[
+"🏠 Dashboard",
+"🧮 Kalkulator",
+"🎨 Simulasi Indikator",
+"📈 Riwayat"
+]
 
 )
 
-
-# ==================================================
+# =====================================================
 # DASHBOARD
-# ==================================================
+# =====================================================
 
 if menu=="🏠 Dashboard":
 
     st.header(
-    "Selamat Datang di TITRILATOR"
+    "Selamat Datang"
     )
 
-    col1,col2,col3=st.columns(3)
+    c1,c2,c3=st.columns(3)
 
-    with col1:
-
-        st.markdown("""
-
-        <div class='kartu'>
-
-        <h3>🔬 Asidimetri</h3>
-
-        • Standarisasi NaOH<br>
-        • Standarisasi HCl
-
-        </div>
-
-        """,unsafe_allow_html=True)
-
-
-    with col2:
+    with c1:
 
         st.markdown("""
 
-        <div class='kartu'>
+<div class='kartu'>
 
-        <h3>💜 Permanganometri</h3>
+<h3>🔬 Asidimetri</h3>
 
-        • KMnO₄<br>
-        • Analisis Fe
+<p>
 
-        </div>
+• Standarisasi NaOH
 
-        """,unsafe_allow_html=True)
+• Standarisasi HCl
 
+</p>
 
+</div>
 
-    with col3:
+""",unsafe_allow_html=True)
+
+    with c2:
 
         st.markdown("""
 
-        <div class='kartu'>
+<div class='kartu'>
 
-        <h3>💙 Kompleksiometri</h3>
+<h3>💜 Permanganometri</h3>
 
-        • EDTA<br>
-        • Kesadahan Air
+<p>
 
-        </div>
+• Standarisasi KMnO₄
 
-        """,unsafe_allow_html=True)
+• Analisis Fe
+
+</p>
+
+</div>
+
+""",unsafe_allow_html=True)
+
+
+    with c3:
+
+        st.markdown("""
+
+<div class='kartu'>
+
+<h3>💙 Kompleksiometri</h3>
+
+<p>
+
+• EDTA
+
+• Kesadahan Air
+
+</p>
+
+</div>
+
+""",unsafe_allow_html=True)
+
+    st.divider()
 
     st.info("""
 
-Fitur:
+Fitur aplikasi:
 
 ✅ Perhitungan normalitas
 
@@ -214,16 +302,16 @@ Fitur:
 
 ✅ Simulasi indikator
 
-✅ Riwayat hasil
+✅ Riwayat perhitungan
 
 ✅ Download CSV
 
 """)
 
 
-# ==================================================
+# =====================================================
 # KALKULATOR
-# ==================================================
+# =====================================================
 
 elif menu=="🧮 Kalkulator":
 
@@ -241,6 +329,7 @@ elif menu=="🧮 Kalkulator":
 
     )
 
+    # =================================
 
     if metode=="Standarisasi NaOH":
 
@@ -259,33 +348,47 @@ elif menu=="🧮 Kalkulator":
         value=25.0
         )
 
-        titran=st.number_input(
+        vt=st.number_input(
         "Volume Titran (mL)",
         value=25.0
         )
 
-
-        if st.button("Hitung NaOH"):
+        if st.button(
+        "Hitung"
+        ):
 
             be=126.07/2
             fp=labu/pipet
 
             hasil=hitung_normalitas(
             mg,
-            titran,
+            vt,
             be,
             fp
             )
 
             st.markdown(
-            f"<div class='hasil'>Normalitas NaOH = {hasil:.5f} N</div>",
-            unsafe_allow_html=True
-            )
+
+f"""
+<div class='hasil'>
+
+Normalitas NaOH
+
+<br><br>
+
+{hasil:.5f} N
+
+</div>
+""",
+
+unsafe_allow_html=True
+)
 
             simpan_riwayat(
             "NaOH",
             hasil
             )
+
 
 
     elif metode=="Standarisasi HCl":
@@ -305,28 +408,41 @@ elif menu=="🧮 Kalkulator":
         value=25.0
         )
 
-        titran=st.number_input(
-        "Volume Titran (mL)",
+        vt=st.number_input(
+        "Volume Titran",
         value=25.0
         )
 
-
-        if st.button("Hitung HCl"):
+        if st.button(
+        "Hitung"
+        ):
 
             be=381.37/2
             fp=labu/pipet
 
             hasil=hitung_normalitas(
             mg,
-            titran,
+            vt,
             be,
             fp
             )
 
             st.markdown(
-            f"<div class='hasil'>Normalitas HCl = {hasil:.5f} N</div>",
-            unsafe_allow_html=True
-            )
+
+f"""
+<div class='hasil'>
+
+Normalitas HCl
+
+<br><br>
+
+{hasil:.5f} N
+
+</div>
+""",
+
+unsafe_allow_html=True
+)
 
             simpan_riwayat(
             "HCl",
@@ -352,7 +468,7 @@ elif menu=="🧮 Kalkulator":
         )
 
         if st.button(
-        "Hitung Kesadahan"
+        "Hitung"
         ):
 
             hasil=hitung_kesadahan(
@@ -362,9 +478,21 @@ elif menu=="🧮 Kalkulator":
             )
 
             st.markdown(
-            f"<div class='hasil'>Kesadahan = {hasil:.2f} ppm</div>",
-            unsafe_allow_html=True
-            )
+
+f"""
+<div class='hasil'>
+
+Kesadahan Air
+
+<br><br>
+
+{hasil:.2f} ppm
+
+</div>
+""",
+
+unsafe_allow_html=True
+)
 
             simpan_riwayat(
             "Kesadahan",
@@ -372,14 +500,14 @@ elif menu=="🧮 Kalkulator":
             )
 
 
-# ==================================================
-# SIMULASI INDIKATOR
-# ==================================================
+# =====================================================
+# SIMULASI
+# =====================================================
 
 elif menu=="🎨 Simulasi Indikator":
 
     st.subheader(
-    "Simulasi Indikator pH"
+    "Simulasi pH"
     )
 
     ph=st.slider(
@@ -389,19 +517,20 @@ elif menu=="🎨 Simulasi Indikator":
     7.0
     )
 
-    st.write(
-    f"Nilai pH: {ph}"
+    st.metric(
+    "Nilai pH",
+    ph
     )
 
 
-# ==================================================
+# =====================================================
 # RIWAYAT
-# ==================================================
+# =====================================================
 
 elif menu=="📈 Riwayat":
 
     st.subheader(
-    "Riwayat Perhitungan"
+    "Riwayat"
     )
 
     if len(
@@ -426,7 +555,7 @@ elif menu=="📈 Riwayat":
         st.download_button(
         "⬇ Download CSV",
         csv,
-        "riwayat_titrilator.csv",
+        "riwayat.csv",
         "text/csv"
         )
 
