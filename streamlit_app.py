@@ -7,7 +7,7 @@ import time
 # ==========================================
 
 st.set_page_config(
-    page_title="TITRILATOR v3.0",
+    page_title="TITRILATOR",
     page_icon="🧪",
     layout="wide"
 )
